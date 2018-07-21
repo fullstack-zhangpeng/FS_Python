@@ -12,4 +12,4 @@
 
     在设计给出图片素材时，名字总是乱乱的。这个脚本的作用就是讲设计给出的图片名字弄成iOS可识别的名字的脚本
 
-    **举例：** abcNXdef.png 修改为 abddef@Nx.png
+    **举例：** abcNXdef.png 修改为 abddef@Nx.png
