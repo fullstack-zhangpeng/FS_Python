@@ -3,6 +3,18 @@
 
 import os,sys,shutil,time,re
 
+def getSearchDirPath():
+    inputContent = input("请指定搜索文件夹: ")
+    return inputContent
+
+def getSearchContent():
+    inputContent = input("请输入搜索内容: ")
+    return inputContent
+
+def getDestinationDirName():
+    inputContent = input("请输入临时文件夹的名字: ")
+    return inputContent
+
 ### 创建多层目录
 def mkdir(path):
     # 去除首位空格
@@ -41,17 +53,39 @@ def getFileInPath(path, isRecursive, ignoreHidden):
                     files.extend(getFileInPath(itemPath, True, ignoreHidden))
     return files
 
-def main():
-    files = getFileInPath(os.getcwd(), True, True)
-    result, newPath = mkdir("pngdir")
+def search(searchContent, files):
+    resultFiles = []
     for file in files:
-        # isPngFile = re.match(r"^\w+\.png$", file)
-        isPngFile = (file.find("png") >= 0)
-        if isPngFile:
-            fileName = os.path.basename(file)
-            des_path = newPath + '/' + fileName
-            # print(des_path)
+        # re.search(searchContent, os.path.basename(file), re.I)
+        searchResult = re.search(searchContent, os.path.basename(file), re.I)
+        if searchResult:
+            resultFiles.append(file)
+    return resultFiles
+
+def moveFileFromFiles(destinationDir, files):
+    for file in files:
+        fileName = os.path.basename(file)
+        des_path = destinationDir + '/' + fileName
+        try:
             shutil.copy(file, des_path)
+        except IOError as e:
+            # print(fileName + ", 未复制")
+            print("Unable to copy file. %s" %e) 
+            
 
 if __name__ == "__main__":
-    main()
+    # 选择文件夹
+    searchPath = getSearchDirPath()
+    # 获取路径下所有的文件
+    files = getFileInPath(os.getcwd(), True, True)
+    # 输入搜索内容
+    searchContent = getSearchContent()
+    # 根据搜索内容搜索
+    resultFiles = search(searchContent, files)
+    # 移动至新的文件夹
+    destinationDir = getDestinationDirName()
+    # 创建新的文件夹
+    result, newPath = mkdir(destinationDir)
+    # 复制一份新的文件至目标文件夹
+    moveFileFromFiles(newPath, resultFiles)
+
