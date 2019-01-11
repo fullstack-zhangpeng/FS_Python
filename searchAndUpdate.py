@@ -1,7 +1,7 @@
 # !/bin/env python
 # -*- encoding=utf8 -*-
 
-import os,sys,shutil, time
+import os,sys,shutil,time
 
 def getDirPath():
     inputContent = input("请指定文件夹: ")
