@@ -11,8 +11,8 @@ def getSearchContent():
     inputContent = input("请输入搜索内容: ")
     return inputContent
 
-def getDestinationDirName():
-    inputContent = input("请输入临时文件夹的名字: ")
+def getDestinationDir():
+    inputContent = input("请输入临时文件夹的名字(会和本python文件在同级目录下): ")
     return inputContent
 
 ### 创建多层目录
@@ -72,10 +72,10 @@ def moveFileFromFiles(destinationDir, files):
             # print(fileName + ", 未复制")
             print("Unable to copy file. %s" %e) 
             
-
 if __name__ == "__main__":
     # 选择文件夹
     searchPath = getSearchDirPath()
+    # searchPath = os.getcwd()
     # 获取路径下所有的文件
     files = getFileInPath(os.getcwd(), True, True)
     # 输入搜索内容
@@ -83,9 +83,10 @@ if __name__ == "__main__":
     # 根据搜索内容搜索
     resultFiles = search(searchContent, files)
     # 移动至新的文件夹
-    destinationDir = getDestinationDirName()
+    destinationDir = getDestinationDir()
     # 创建新的文件夹
     result, newPath = mkdir(destinationDir)
     # 复制一份新的文件至目标文件夹
     moveFileFromFiles(newPath, resultFiles)
+
 
